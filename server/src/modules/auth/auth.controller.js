@@ -105,7 +105,7 @@ export const refreshToken = catchAsync(async (req, res, next) => {
 // Get Current User details
 export const me = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).populate('institute');
-  
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -120,7 +120,8 @@ export const logout = catchAsync(async (req, res, next) => {
     httpOnly: true,
     expires: new Date(Date.now() + 10 * 1000), // expires in 10 seconds
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    // sameSite: 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   });
 
   res.status(200).json({

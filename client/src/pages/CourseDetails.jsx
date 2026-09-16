@@ -8,7 +8,7 @@ import {
   getCourseProgressApi 
 } from '../services/apiCollection';
 import useAuth from '../hooks/useAuth';
-import { FiPlus, FiTrash2, FiPlay, FiCheck, FiArrowLeft, FiClock, FiVideo } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiPlay, FiCheck, FiArrowLeft, FiClock, FiBookOpen } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Loader from '../components/common/Loader';
@@ -55,7 +55,7 @@ const CourseDetails = () => {
       }
 
       // Fetch progress if student is logged in
-      if (user.role === 'Student') {
+      if (user?.role === 'Student') {
         const progressRes = await getCourseProgressApi(courseId);
         setProgress(progressRes.data);
       }
@@ -119,7 +119,7 @@ const CourseDetails = () => {
   if (error) return <ErrorFallback retryAction={loadCourseData} message={error} />;
 
   const lessons = course?.lessons || [];
-  const isInstructor = user.role !== 'Student';
+  const isInstructor = user?.role !== 'Student';
 
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -153,7 +153,7 @@ const CourseDetails = () => {
           <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">{course.description || 'No description provided.'}</p>
           
           {/* Progress bar for students */}
-          {user.role === 'Student' && (
+          {user?.role === 'Student' && (
             <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 max-w-sm">
               <div className="flex justify-between items-center text-xs font-semibold text-slate-600 mb-1.5">
                 <span>Learning Progress</span>
@@ -193,7 +193,7 @@ const CourseDetails = () => {
                 </div>
                 
                 {/* Completed status check button for Student */}
-                {user.role === 'Student' && (
+                {user?.role === 'Student' && (
                   <button
                     onClick={() => handleToggleLessonComplete(activeLesson._id)}
                     className={`inline-flex items-center space-x-2 px-4 py-2 text-xs font-semibold rounded-xl border transition cursor-pointer shadow-sm ${
@@ -261,7 +261,7 @@ const CourseDetails = () => {
                     >
                       <div className="flex items-start space-x-3 flex-1 min-w-0">
                         {/* Play/Complete Indicators */}
-                        {user.role === 'Student' ? (
+                        {user?.role === 'Student' ? (
                           <button
                             onClick={(e) => {
                               e.stopPropagation(); // Stop click setting active lesson!
