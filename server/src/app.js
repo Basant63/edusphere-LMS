@@ -22,12 +22,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Enable CORS
-const allowedOrigins = process.env.FRONTEND_URL 
+// const allowedOrigins = process.env.FRONTEND_URL 
+const allowedOrigins = process.env.FRONTEND_URL?.split(',') || [];
 
+// app.use(
+//   cors({
+//     origin: [allowedOrigins, "http://localhost:3000"],
+//     credentials: true, // Allow sharing cookies
+//   })
+// );
 app.use(
   cors({
-    origin: [allowedOrigins,"http://localhost:3000"],
-    credentials: true, // Allow sharing cookies
+    origin: [...allowedOrigins, "http://localhost:3000"],
+    credentials: true,
   })
 );
 
